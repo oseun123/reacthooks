@@ -1,26 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useReducer } from "react";
+import Form from "./components/Form";
+import People from "./components/People";
+import NewestPerson from "./components/NewestPerson";
+import peopleContext from "./context/peopleContext";
+import peopleReducer from "./context/peopleReducer";
+import { ADD_PERSON } from "./context/types";
 
-function App() {
+const App = () => {
+  const initialState = {
+    people: [
+      {
+        firstname: "John",
+        lastname: "Doe",
+      },
+      {
+        firstname: "Jane",
+        lastname: "Doe",
+      },
+    ],
+  };
+  const [state, dispatch] = useReducer(peopleReducer, initialState);
+
+  const addPerson = (person) => {
+    // setPeople([...people, person]);
+    dispatch({
+      type: ADD_PERSON,
+      payload: person,
+    });
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <peopleContext.Provider
+      value={{
+        people: state.people,
+        addPerson: addPerson,
+      }}
+    >
+      <div className="container mt-4">
+        <div className="row">
+          <Form />
+          <People />
+          <NewestPerson />
+        </div>
+      </div>
+    </peopleContext.Provider>
   );
-}
+};
 
 export default App;
