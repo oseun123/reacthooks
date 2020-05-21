@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useEffect } from "react";
 import peopleContext from "../context/peopleContext";
 import { useForm } from "../hooks";
 const Form = () => {
@@ -26,6 +26,9 @@ const Form = () => {
     initPerson,
     validatePersonForm
   );
+  useEffect(() => {
+    console.log(values);
+  }, [values]);
 
   // const printNumberOfPeople = () =>
   //   console.log(`Number of people:${context.people.length}`);
